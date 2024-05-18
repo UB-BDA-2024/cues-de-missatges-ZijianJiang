@@ -25,10 +25,18 @@ class Timescale:
     def execute(self, query):
        return self.cursor.execute(query)
     
+    def insert(self, query, values):
+        result = self.cursor.execute(query, values)
+        self.conn.commit()
+        return result   
+
     def delete(self, table):
         self.cursor.execute("DELETE FROM " + table)
         self.conn.commit()
 
+    def delete_sensor(self, table, sensor_id):
+        self.cursor.execute(f"DELETE FROM {table} WHERE sensor_id={sensor_id}")
+        self.conn.commit()
         
      
          
