@@ -5,8 +5,8 @@ class MongoDBClient:
         self.host = host
         self.port = port
         self.client = MongoClient(host, port)
-        self.database = None
-        self.collection = None
+        self.database = self.client["mydatabase"]
+        self.collection = self.database["Sensors"]
 
     def close(self):
         self.client.close()
@@ -24,5 +24,11 @@ class MongoDBClient:
     
     def clearDb(self,database):
         self.client.drop_database(database)
+
+    def insertOne(self, doc):
+        return self.collection.insert_one(doc)
+
+    def deleteOne(self, name):
+        return self.collection.delete_one({'name': name})
 
 
